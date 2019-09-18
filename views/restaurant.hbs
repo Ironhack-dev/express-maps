@@ -1,0 +1,16 @@
+{{#if restaurant}}
+<p>{{restaurant.name}}</p>
+a
+<p>
+  {{restaurant.type}}
+</p>
+
+<form action="/restaurants/{{restaurant.id}}" method="POST">
+  <input type="text" required name="name">
+  <input type="text" name="type">
+  <input type="number" step="any" name="lat">
+  <input type="number" step="any" name="lng">
+
+  <input type="submit" value="Actualizar">
+</form>
+{{/if}}

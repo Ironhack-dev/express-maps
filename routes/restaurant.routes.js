@@ -35,4 +35,35 @@ router.post('/new', (req, res, next) => {
     .catch(error => next(error));
 });
 
+router.get('/restaurants/:id', (req, res, next) => {
+  const { id } = req.params;
+  Restaurant.findById({ _id: id })
+    .then((restaurant) => {
+      res.render('restaurant', { restaurant });
+    });
+});
+
+router.post('/restaurants/:id', (req, res, next) => {
+  const { id } = req.params;
+  const {
+    name, type, lat, lng,
+  } = req.body;
+
+  Restaurant.findById({ _id: id })
+    .then((restaurant) => {
+      // res.render('restaurant', { restaurant });
+      restaurant.name = name;
+      restaurant.type = type;
+      restaurant.location = {
+        coordinates: [lng, lat],
+        type: 'Point',
+      };
+
+      restaurant.save()
+        .then(() => {
+          res.redirect('/');
+        });
+    });
+});
+
 module.exports = router;
